@@ -24,7 +24,7 @@ class App(customtkinter.CTk):
         self.plaintext_Entry.grid(row=1, column=0, padx=20, columnspan=2, pady=15)
 
         ##### Buttons #####
-        self.encrypt_or_decrypt = customtkinter.CTkOptionMenu(self, values=["Encrypt", "Decrypt"], command=self.encrypt)
+        self.encrypt_or_decrypt = customtkinter.CTkOptionMenu(self, values=["Encrypt", "Decrypt"], command=self.execute)
         self.encrypt_or_decrypt.grid(row=2, column=0)
         self.encryptionAlgoToUse = customtkinter.CTkOptionMenu(self, values=[
             "Base64", 
@@ -36,7 +36,8 @@ class App(customtkinter.CTk):
         self.encryptedText_Entry = customtkinter.CTkTextbox(self, width=400, corner_radius=5)
         self.encryptedText_Entry.grid(row=3, column=0, padx=20, columnspan=2, pady=15)
 
-    def encrypt(self):
+    def execute(self, value):
+        
         plaintext = self.plaintext_Entry.get("0.0", "end")
         encryptedText = base64.b64encode(str.encode(plaintext))
         self.encryptedText_Entry.insert("0.0", encryptedText)
