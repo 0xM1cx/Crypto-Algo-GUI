@@ -1,4 +1,5 @@
 import customtkinter
+import cryptography
 import base64
 
 class App(customtkinter.CTk):
