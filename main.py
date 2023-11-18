@@ -8,6 +8,9 @@ $ TODO $
 # Add SHA-2 (SHA-224, SHA-256, SHA-384, SHA-512)
 # Add SHA-3 (SHA3-224, SHA3-256, SHA3-384, SHA3-512)
 # Add MD5
+# Add MD2
+# Add MD4
+# Add MD6
 # Add BLAKE2 
 # Add AES (Advanced Encryption Standard) in various modes (CBC, GCM, CFB, etc.)
 # Add Fernet (a symmetric encryption implementation using a combination of AES and HMAC)
@@ -20,10 +23,11 @@ $ TODO $
 '''
 class App(customtkinter.CTk):
 
-    encryptionAlgorithms = {
-        "Base64": (base64.b64encode, base64.b64decode)
+    Recipes = {
+        "SHA": ("SHA-224", "SHA-256", "SHA-384", "SHA-512"), # As of know these are just samples 
+        "SHA3": ("SHA3-224", "SHA3-256", "SHA3-384", "SHA3-512"),
+        "Message Digest Hashes": ("MD2", "MD4", "MD5", "MD6")
     }
-
     def __init__(self):
         super().__init__()
         self.geometry("500x600")
@@ -37,15 +41,12 @@ class App(customtkinter.CTk):
         self.plaintext_Entry = customtkinter.CTkTextbox(self, width=400, corner_radius=5)
         self.plaintext_Entry.grid(row=1, column=0, padx=20, columnspan=2, pady=15)
 
-        ##### 
-        self.recipie = customtkinter.CTkOptionMenu(self, values=["Hash Functions", "Symmetric Encryption", "Asymmetric Encryption", "Digital Signatures"], command=self.displayRecipie)
-        self.recipie.grid(row=2, column=0)
+        ##### Option Menu for what Recipie to use #####
+        self.recipes = customtkinter.CTkOptionMenu(self, values=["SHA", "SHA3", "Message Digest Hashes", "Symmetric Encryption", "Asymmetric Encryption", "Digital Signatures", "Binary To Text"], command=self.displayRecipes)
+        self.recipes.grid(row=2, column=0)
         
-        self.encryptionAlgoToUse = customtkinter.CTkOptionMenu(self, values=[
-            "Base64", 
-            ""
-        ])
-
+        ##### Option Menu for the algorithms #####
+        self.encryptionAlgoToUse = customtkinter.CTkOptionMenu(self, values=self.Recipes['SHA'])
         self.encryptionAlgoToUse.grid(row=2, column=3)
 
         ##### Pick either to Encrypt to Decrypt #####
@@ -61,6 +62,11 @@ class App(customtkinter.CTk):
         encryptedText = base64.b64encode(str.encode(plaintext))
         self.encryptedText_Entry.insert("0.0", encryptedText)
 
+    def displayRecipes(self, value):
+        self.encryptionAlgoToUse.configure(values=self.Recipes[value]) 
+        self.encryptionAlgoToUse.set(self.Recipes[value][0])
+    def text(self):
+        pass
 app = App()
 app.title("Encryption/Decryption GUI")
 app.mainloop()
